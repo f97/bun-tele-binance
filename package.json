@@ -1,0 +1,19 @@
+{
+  "name": "bun-tele-binance",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/lodash-es": "^4.17.12"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "ccxt": "^4.2.71",
+    "dayjs": "^1.11.10",
+    "delay": "^6.0.0",
+    "lodash-es": "^4.17.21",
+    "winston": "^3.12.0"
+  }
+}
