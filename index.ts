@@ -48,21 +48,28 @@ const getPrices = async (numberOfCandles = 10) => {
 };
 
 const tick = async () => {
-  const prices = await getPrices(10);
+  const balance = await getBalance();
+  const prices = await getPrices(3);
   const lastPrice = prices[prices.length - 1].close ?? 0;
   const averagePrice =
     prices.reduce((a, b: any) => a + b.close, 0) / prices.length;
 
-  const TRADE_SIZE = 200;
+  const TRADE_SIZE = 100;
   const quantity = TRADE_SIZE / lastPrice;
 
   let direction = lastPrice > averagePrice ? "buy" : "sell";
-  await binance.createMarketOrder("PEPE/USDT", direction, quantity);
+  const isHasBalance =
+    direction === "buy" ? balance.USDT > TRADE_SIZE : balance.PEPE > TRADE_SIZE;
+
+  if (isHasBalance) {
+    await binance.createMarketOrder("PEPE/USDT", direction, quantity);
+  }
+  printBalance(lastPrice);
+
   // logger.log(
   //   "info",
   //   `${dayjs().format()}: ${direction} ${quantity} PEPE at ${lastPrice}`
   // );
-  printBalance(lastPrice);
 };
 
 const main = async () => {
