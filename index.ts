@@ -27,6 +27,7 @@ const getBalance = async () => {
 
 const printBalance = async (pepePrice = 0) => {
   const balance = await getBalance();
+  console.log("USDT", `${balance.USDT + balance.PEPE * pepePrice}`);
   logger.log("info", `${balance.USDT + balance.PEPE * pepePrice}`);
 };
 
