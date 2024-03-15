@@ -59,13 +59,17 @@ const tick = async () => {
   let quantity = TRADE_SIZE / lastPrice;
 
   let direction = lastPrice > averagePrice ? "buy" : "sell";
-  const isNotHasBalance =
-    direction === "buy" ? balance.USDT > TRADE_SIZE : balance.PEPE > TRADE_SIZE;
+  const isHasBalance =
+    direction === "buy"
+      ? balance.USDT > quantity
+      : balance.PEPE * lastPrice > quantity;
 
-  if (isNotHasBalance) {
-    direction === "buy" ? (direction = "sell") : (direction = "buy");
-    quantity = quantity * 10;
+  if (!isHasBalance) {
+    direction === "buy"
+      ? ((direction = "sell"), (quantity = balance.PEPE))
+      : ((direction = "buy"), (quantity = balance.USDT / lastPrice));
   }
+
   await binance.createMarketOrder("PEPE/USDT", direction, quantity);
   printBalance(lastPrice);
 
